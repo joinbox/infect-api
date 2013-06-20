@@ -1,0 +1,45 @@
+
+
+
+	var   Class 	= require( "ee-class" )
+		, Events 	= require( "ee-event" )
+		, log 		= require( "ee-log" )
+		, Waiter 	= require( "ee-waiter" )
+		, LRUCache 	= require( "ee-lru-cache" );
+
+
+
+	module.exports = new Class( {
+		inherits: Events
+
+
+		, apikeys: {}
+
+
+		, init: function( options ){
+			this.schema 	= options.schema;
+			this.apikeys 	= options.apikeys;
+		}
+
+
+
+		, request: function( request, response, next ){
+			if ( request.query && typeof request.query.apikey === "string" && !/[^a-z0-9]{10,100}/gi.test( request.query.apikey ) && Object.prototype.hasOwnProperty.call( this.apikeys, request.query.apikey ) ){
+				var api = this.apikeys[ request.query.apikey ];
+				if ( api.limit ){
+					if ( !api.cache ) api.cache = new LRUCache( { ttl: 3600000 } );
+					if ( api.cache.length < api.limit ) {
+						api.cache.set( Date.now(), 1 );
+						next();
+					}
+					else {
+						response.send( "", {}, 429 );
+					}
+				}
+				else next();
+			}
+			else {
+				response.send( "", {}, 403 );
+			}
+		}
+	} );
