@@ -4,7 +4,7 @@
 	module.exports = {
 		http: {
 			port: 12001
-			, interface: Webservice.Webserver.IF_INTERNAL
+			, interface: Webservice.Webserver.IF_ANY
 		}
 		, model: {
 			name: 			"infect"
