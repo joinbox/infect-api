@@ -63,6 +63,8 @@
 						var query = "SELECT s.*, sl0.name name0, sl1.name name1, cs.id_compound \
 									 , GROUP_CONCAT( scl0.name ) cls0, GROUP_CONCAT( scl1.name ) cls1, GROUP_CONCAT( scl2.name ) cls2 \
 									 , GROUP_CONCAT( scl3.name ) cls3, GROUP_CONCAT( scl4.name ) cls4, GROUP_CONCAT( scl5.name ) cls5 \
+									 , GROUP_CONCAT( s0.id ) clsid0, GROUP_CONCAT( s1.id ) clsid1, GROUP_CONCAT( s2.id ) clsid2 \
+									 , GROUP_CONCAT( s3.id ) clsid3, GROUP_CONCAT( s4.id ) clsid4, GROUP_CONCAT( s5.id ) clsid5 \
 									 FROM substance s \
 									 JOIN compound_substance cs ON cs.id_substance = s.id \
 									 LEFT JOIN substanceLocale sl0 ON sl0.id_substance = s.id AND sl0.id_language = ? \
