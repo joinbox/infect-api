@@ -19,6 +19,5 @@
 				, maxConnections: 		20
 				} ]
 		}
-		, defaultLanguage: "de"
-		, language: [ "de" ]
+		, defaultLanguage: "en"
 	};
