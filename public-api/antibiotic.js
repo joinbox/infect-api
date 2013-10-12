@@ -10,10 +10,9 @@
 
 
 		init: function( options ){
-			this.schema 		= options.schema;
-			this.languages 		= options.languages;
-
-			//log.dir( options.languages );
+			this.schema 			= options.schema;
+			this.languages 			= options.languages;
+			this.reverseLanguages 	= options.reverseLanguages;
 		}
 
 

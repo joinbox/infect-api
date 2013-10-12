@@ -49,8 +49,9 @@
 						this.rest = new Rest( { 
 							  path: project.root + "public-api"
 							, options: { 
-								  schema: 		this.schema
-								, languages: 	this.languages
+								  schema: 				this.schema
+								, languages: 			this.languages
+								, reverseLanguages: 	this.reverseLanguages
 							}
 							, on: { load: function(){
 
@@ -100,10 +101,12 @@
 					if ( err ) cb( err );
 					else {
 						this.languages = {};
-						this.languageNames = languages.map( function( l ){ return l.iso2 } );
+						this.reverseLanguages = {};
+						this.languageNames = languages.map( function( l ){ return l.iso2.toLowerCase() } );
 
 						languages.forEach( function( language ){
-							this.languages[ language.iso2 ] = language.id;
+							this.languages[ language.iso2.toLowerCase() ] = language.id;
+							this.reverseLanguages[ language.id ] = language.iso2.toLowerCase();
 						}.bind( this ) );
 
 						cb();

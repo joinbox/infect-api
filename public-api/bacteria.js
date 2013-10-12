@@ -10,10 +10,9 @@
 
 
 		init: function( options ){
-			this.schema 		= options.schema;
-			this.languages 		= options.languages;
-
-			//log.dir( options.languages );
+			this.schema 			= options.schema;
+			this.languages 			= options.languages;
+			this.reverseLanguages 	= options.reverseLanguages;
 		}
 
 
@@ -30,32 +29,37 @@
 				if ( err ) response.render( null, null, 500 );
 				else if ( bacts && bacts.length === 0 ) response.render( [] );
 				else {
-					var   bacteria 		= {}
-						, waiter 		= new Waiter()
-						, languages 	= []
-						, bacteriaIds 	= [];
+					var   bacteria 			= {}
+						, waiter 			= new Waiter()
+						, selectedLanguage 	= null
+						, bacteriaIds 		= [];
 
 					// query languages
-					if ( this.languages[ request.language ] ) languages.push( this.languages[ request.language ] );
-					if ( request.language !== "en" && this.languages[ "en" ] ) languages.push( this.languages[ "en" ] );
+					if ( this.languages[ request.language.toLowerCase() ] ) selectedLanguage = this.languages[ request.language.toLowerCase() ];
+					else if ( selectedLanguage === null ) selectedLanguage = this.languages[ "en" ];
 
 					// map bacterias to object
-					bacts.forEach( function( b ){ bacteria[ b.id ] = b, bacteriaIds.push( b.id ); } );
+					bacts.forEach( function( b ){
+						bacteria[ b.id ] = b
+						bacteria[ b.id ].selectedLanguageId = selectedLanguage;
+						bacteria[ b.id ].selectedLanguage = this.reverseLanguages[ selectedLanguage ];
+						bacteriaIds.push( b.id ); 
+					}.bind( this ) );
 
 
 					
 					// get bacteria locales
 					waiter.add( function( cb ){
 						this.schema.bacteriaLocale.find( {
-							  id_language: { in: languages }
-							, id_bacteria: { in: bacteriaIds }
+							  id_bacteria: { in: bacteriaIds }
 						}, function( err, locales ){
 							if ( err ) cb ( err );
 							else {
 								locales.forEach( function( loc ){
 									if ( !bacteria[ loc.id_bacteria ].localeNames ) bacteria[ loc.id_bacteria ].localeNames = [];
-									bacteria[ loc.id_bacteria ].localeNames.push( loc.name );
-								} );
+									bacteria[ loc.id_bacteria ].localeNames.push( { name: loc.name, language: this.reverseLanguages[ loc.id_language ], id_language: loc.id_language } );
+									if ( loc.id_language === selectedLanguage ) bacteria[ loc.id_bacteria ].localeName = loc.name;
+								}.bind( this ) );
 
 								cb();
 							}
@@ -65,17 +69,18 @@
 
 					// grouping
 					waiter.add( function( cb ){
-						this.schema.groupingLocale.find( {
-							  id_language: { in: languages }
-						}, function( err, groupings ){
+						this.schema.groupingLocale.fetchAll( function( err, groupings ){
 							if ( err ) cb ( err );
 							else {
 								bacts.forEach( function( bac ){
-									if( !bacteria[ bac.id ].grouping ) bacteria[ bac.id ].grouping = [];
+									if( !bacteria[ bac.id ].groupingLocales ) bacteria[ bac.id ].groupingLocales = [];
 
 									groupings.forEach( function( group ){
-										if ( bac.id_grouping === group.id_grouping )  bacteria[ bac.id ].grouping.push( group.name );
-									} );
+										if ( bac.id_grouping === group.id_grouping ) {
+											bacteria[ bac.id ].groupingLocales.push( { name: group.name, language: this.reverseLanguages[ group.id_language ], id_language: group.id_language } );
+											if ( group.id_language === selectedLanguage ) bacteria[ bac.id ].grouping = group.name;
+										}										
+									}.bind( this ) );
 
 								}.bind( this ) );
 
@@ -87,17 +92,18 @@
 
 					// shapes
 					waiter.add( function( cb ){
-						this.schema.shapeLocale.find( {
-							  id_language: { in: languages }
-						}, function( err, shapes ){
+						this.schema.shapeLocale.fetchAll( function( err, shapes ){
 							if ( err ) cb ( err );
 							else {
 								bacts.forEach( function( bac ){
-									if( !bacteria[ bac.id ].shape ) bacteria[ bac.id ].shape = [];
+									if( !bacteria[ bac.id ].shapeLocales ) bacteria[ bac.id ].shapeLocales = [];
 
 									shapes.forEach( function( shape ){
-										if ( bac.id_shape === shape.id_shape )  bacteria[ bac.id ].shape.push( shape.name );
-									} );
+										if ( bac.id_shape === shape.id_shape ) {
+											bacteria[ bac.id ].shapeLocales.push( { name: shape.name, language: this.reverseLanguages[ shape.id_language ], id_language: shape.id_language } );
+											if ( shape.id_language === selectedLanguage ) bacteria[ bac.id ].shape = shape.name;
+										}
+									}.bind( this ) );
 
 								}.bind( this ) );
 
@@ -119,8 +125,6 @@
 								, l 	= keys.length;
 
 							while( l-- ) list.push( bacteria[ keys[ l ] ] );
-
-							log( list );
 
 							// respond
 							response.render( list );

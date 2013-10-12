@@ -8,7 +8,7 @@
 		}
 		, model: {
 			name: 			"infect"
-			, database: 	"infect"
+			, database: 	"infectbackend"
 			, hosts: [ {
 				  host: 				"10.0.100.1"
 				, port: 				3306
