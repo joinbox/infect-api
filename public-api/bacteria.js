@@ -67,6 +67,25 @@
 					}.bind( this ) );
 
 
+					waiter.add( function( cb ){
+						this.schema.grouping.fetchAll( function( err, groupings ){
+							if ( err ) cb ( err );
+							else {
+								bacts.forEach( function( bac ){
+									groupings.forEach( function( group ){
+										if ( bac.id_grouping === group.id ) {
+											bacteria[ bac.id ].grouping = group.name;
+										}										
+									}.bind( this ) );
+
+								}.bind( this ) );
+
+								cb();
+							}
+						}.bind( this ) );
+					}.bind( this ) );
+
+
 					// grouping
 					waiter.add( function( cb ){
 						this.schema.groupingLocale.fetchAll( function( err, groupings ){
@@ -78,7 +97,7 @@
 									groupings.forEach( function( group ){
 										if ( bac.id_grouping === group.id_grouping ) {
 											bacteria[ bac.id ].groupingLocales.push( { name: group.name, language: this.reverseLanguages[ group.id_language ], id_language: group.id_language } );
-											if ( group.id_language === selectedLanguage ) bacteria[ bac.id ].grouping = group.name;
+											if ( group.id_language === selectedLanguage ) bacteria[ bac.id ].groupingLocale = group.name;
 										}										
 									}.bind( this ) );
 

@@ -19,6 +19,12 @@
 
 
 
+		, getSubstanceClasses: function( classTree, callback ){
+			
+		}
+
+
+
 		, get: function( request, response, next ){
 
 			this.schema.compound.fetchAll( function( err, antis ){
@@ -31,8 +37,8 @@
 						, antibioticIds	= [];
 
 					// query languages
-					if ( this.languages[ request.language ] ) languages.push( this.languages[ request.language ] );
-					if ( request.language !== "en" && this.languages[ "en" ] ) languages.push( this.languages[ "en" ] );
+					if ( this.languages[ request.language.toLowerCase() ] ) selectedLanguage = this.languages[ request.language.toLowerCase() ];
+					else if ( selectedLanguage === null ) selectedLanguage = this.languages[ "en" ];
 
 					// map antibiotics to object
 					antis.forEach( function( a ){ antibiotics[ a.id ] = a.toJSON(), antibioticIds.push( a.id ); } );
