@@ -120,6 +120,8 @@
 
 							while( l-- ) list.push( bacteria[ keys[ l ] ] );
 
+							log( list );
+
 							// respond
 							response.render( list );
 						}

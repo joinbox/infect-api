@@ -59,7 +59,7 @@
 								// start listening
 								this.service.listen( function( err ){
 									log.trace( err );
-									log.info( "server loaded ...", this );
+									log.info( "server loaded ..." );
 								}.bind( this ) );
 							}.bind( this ) }
 						} );
