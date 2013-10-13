@@ -31,7 +31,7 @@ OS requirements: ubuntu >= 12.04
 	sudo make install
 
 
-### infect api
+### infect api ( v0.1.0 )
 
 	mkdir -p /srv/jb
 	cd /srv/jb
@@ -44,7 +44,7 @@ OS requirements: ubuntu >= 12.04
 
 ### configuring the application
 
-edit the config.js config file, the values should beself explaining.
+edit the config.js config file, the values should be self explaining.
 questions? ask michael@joinbox.com
 
 
@@ -56,5 +56,6 @@ questions? ask michael@joinbox.com
 
 ### API Documentation
 
-install the POSTMan chrome extension: https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en
-import the collection from https://www.getpostman.com/collections/135f32d5ad0b9540ff9d
+1. install the [POSTMan chrome extension](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en)
+2. import the API collection from [getpostman.com](https://www.getpostman.com/collections/135f32d5ad0b9540ff9d) 
+3. have fun exploring ;)
