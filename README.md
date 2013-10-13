@@ -37,6 +37,7 @@ OS requirements: ubuntu >= 12.04
 	cd /srv/jb
 	git clone https://github.com/joinbox/infect-api.git
 	cd infect-api
+	git checkout v0.1.0
 	npm install
 	cp config.js.dist config.js
 
