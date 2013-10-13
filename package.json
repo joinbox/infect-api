@@ -20,6 +20,7 @@
         , "ee-waiter":              "*"
         , "ee-webservice":          "*"
         , "em-multilang":           "*"
+        , "em-webfiles":            "*"
         , "em-rest":                "*"
         , "em-api-restrictions":    "*"
         , "ee-mysql-schema":        "*"

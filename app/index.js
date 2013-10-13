@@ -9,6 +9,8 @@
 		, Webservice 		= require( "ee-webservice" )
 		, Mutlilang 		= require( "em-multilang" )
 		, Rest 				= require( "em-rest" )
+		, Webfiles 			= require( "em-webfiles" )
+		, project 			= require( "ee-project" )
 		, APIRestriction 	= require( "em-api-restrictions" );
 
 
@@ -31,7 +33,7 @@
 
 
 					// get initial data from db
-					this.loadDBEntites( function(){
+					this.loadData( function(){
 
 						// install mutlilang support
 						this.service.use( new Mutlilang( { 
@@ -52,6 +54,7 @@
 								  schema: 				this.schema
 								, languages: 			this.languages
 								, reverseLanguages: 	this.reverseLanguages
+								, sqlfiles: 			this.sqlfiles
 							}
 							, on: { load: function(){
 
@@ -73,7 +76,7 @@
 
 
 
-		, loadDBEntites: function( callback ){
+		, loadData: function( callback ){
 			var waiter = new Waiter();
 
 			// get api keys
@@ -92,6 +95,19 @@
 					}
 				}.bind( this ) );
 			}.bind( this ) );
+
+
+
+			// load sql files
+			waiter.add( function( cb ){
+				var files = new Webfiles();
+				files.load( project.root + "/sql/", function( err ){
+					if ( err ) throw err;
+					this.sqlfiles = files.hashTree["/"];
+					cb();
+				}.bind( this ) );
+			}.bind( this ) );
+
 
 
 			// get languages

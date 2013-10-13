@@ -13,6 +13,7 @@
 			this.schema 			= options.schema;
 			this.languages 			= options.languages;
 			this.reverseLanguages 	= options.reverseLanguages;
+			this.sqlfiles			= options.sqlfiles;
 		}
 
 
@@ -20,12 +21,8 @@
 
 
 		, get: function( request, response, next ){
-			var query = "SELECT b.*, sp.name species, ge.name genus \
-						 FROM bacteria b \
-						 JOIN species sp ON sp.id = b.id_species \
-						 JOIN genus ge ON sp.id_genus = ge.id";
 
-			this.schema.query( query, function( err, bacts ){
+			this.schema.query( this.sqlfiles[ "bacteria.sql" ].data.toString(), function( err, bacts ){
 				if ( err ) response.render( null, null, 500 );
 				else if ( bacts && bacts.length === 0 ) response.render( [] );
 				else {
@@ -43,6 +40,7 @@
 						bacteria[ b.id ] = b
 						bacteria[ b.id ].selectedLanguageId = selectedLanguage;
 						bacteria[ b.id ].selectedLanguage = this.reverseLanguages[ selectedLanguage ];
+						bacteria[ b.id ].name = b.genus + " / " + b.species;
 						bacteriaIds.push( b.id ); 
 					}.bind( this ) );
 
