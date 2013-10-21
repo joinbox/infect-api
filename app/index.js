@@ -24,6 +24,15 @@
 			this.service = new Webservice( project.config );
 
 
+
+			this.service.use( { request: function( request, response, next  ){
+				//log( request )
+				response.setHeader( "Access-Control-Allow-Origin", "*" );
+
+				next();
+			} } );
+
+
 			// load schema
 			this.schema	= new MysqlSchema( { 
 				  name: 		project.config.model.name
