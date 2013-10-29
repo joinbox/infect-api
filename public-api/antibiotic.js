@@ -39,7 +39,14 @@
 					else if ( selectedLanguage === null ) selectedLanguage = this.languages[ "en" ];
 
 					// map antibiotics to object
-					antis.forEach( function( a ){ antibiotics[ a.id ] = a.toJSON(), antibioticIds.push( a.id ); } );
+					antis.forEach( function( a ){ 
+						antibiotics[ a.id ] = a.toJSON();
+						antibiotics[ a.id ].drugs = [];
+						antibiotics[ a.id ].substanceClasses = [];						
+						antibiotics[ a.id ].substances = [];
+
+						antibioticIds.push( a.id ); 
+					} );
 					
 
 					// get compund substanceClass mappings
@@ -77,8 +84,8 @@
 							if ( err ) cb( err );
 							else {
 								rows.forEach( function( row ){
-									if ( !antibiotics[ row.id_compound ].susbtances ) antibiotics[ row.id_compound ].susbtances = [];
-									antibiotics[ row.id_compound ].susbtances.push( { id: row.id, name: row.name, id_language: row.id_language, language: this.reverseLanguages[ row.id_language ] } );
+									if ( !antibiotics[ row.id_compound ].substances ) antibiotics[ row.id_compound ].substances = [];
+									antibiotics[ row.id_compound ].substances.push( { id: row.id, name: row.name, id_language: row.id_language, language: this.reverseLanguages[ row.id_language ] } );
 									
 									if ( row.id_language === selectedLanguage ) {
 										if ( !antibiotics[ row.id_compound ].name ) antibiotics[ row.id_compound ].name = [];
