@@ -55,7 +55,7 @@
 							if ( !data[ mapping.id_bacteria ][ mapping.id_compound ] ) data[ mapping.id_bacteria ][ mapping.id_compound ] = {};
 							data[ mapping.id_bacteria ][ mapping.id_compound ].id_bacteria 				= mapping.id_bacteria;
 							data[ mapping.id_bacteria ][ mapping.id_compound ].id_compound 				= mapping.id_compound;
-							data[ mapping.id_bacteria ][ mapping.id_compound ].classRresistanceDefault 	= mapping.resistanceDefault;
+							data[ mapping.id_bacteria ][ mapping.id_compound ].classResistanceDefault 	= mapping.resistanceDefault;
 							data[ mapping.id_bacteria ][ mapping.id_compound ].classResistanceUser 		= mapping.resistanceUser;
 							data[ mapping.id_bacteria ][ mapping.id_compound ].classResistanceImport 	= mapping.resistanceImport;
 						}.bind( this ) );
