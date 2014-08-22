@@ -1,7 +1,7 @@
 {
       "name"                       : "infect-api"
     , "description"                : "frontend api for the infect application"
-    , "version"                    : "0.1.0"
+    , "version"                    : "0.1.1"
     , "homepage"                   : "https: //github.com/joinbox/infect.api"
     , "author"                     : "Michael van der Weg <michael@eventemitter.com> (http: //eventemitter.com/)" 
     , "repository" : {
@@ -14,17 +14,17 @@
         "url"                      : "https: //github.com/joinbox/infect.api/issues"
     }
     , "dependencies" : {
-          "ee-class"               : "*"
-        , "ee-event"               : "*"
-        , "ee-log"                 : "*"
-        , "ee-waiter"              : "*"
-        , "ee-webservice"          : "*"
-        , "em-multilang"           : "*"
-        , "em-webfiles"            : "*"
-        , "em-rest"                : "*"
-        , "em-api-restrictions"    : "*"
-        , "ee-mysql-schema"        : "*"
-        , "ee-project"             : "*"
+          "ee-class"               : "0.4.x"
+        , "ee-event"               : "0.1.x"
+        , "ee-log"                 : "0.2.x"
+        , "ee-waiter"              : "0.1.x"
+        , "ee-webservice"          : "0.3.x"
+        , "em-multilang"           : "0.1.x"
+        , "em-webfiles"            : "0.1.x"
+        , "em-rest"                : "0.1.x"
+        , "em-api-restrictions"    : "0.1.x"
+        , "ee-mysql-schema"        : "0.1.x"
+        , "ee-project"             : "0.2.x"
     }
     , "devDependencies" : {}
     , "optionalDependencies" : {}

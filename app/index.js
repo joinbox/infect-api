@@ -25,7 +25,7 @@
 
 
 
-			this.service.use( { request: function( request, response, next  ){
+			this.service.use('*', { request: function( request, response, next  ){
 				//log( request )
 				response.setHeader( "Access-Control-Allow-Origin", "*" );
 
@@ -38,47 +38,47 @@
 				  name: 		project.config.model.name
 				, database: 	project.config.model.database
 				, hosts: 		project.config.model.hosts
-				, on: { load: function(){
+			} );
 
+			this.schema.on('load', function(){
 
-					// get initial data from db
-					this.loadData( function(){
+				// get initial data from db
+				this.loadData( function(){
 
-						// install mutlilang support
-						this.service.use( new Mutlilang( { 
-							  defaultLanguage: 	this.defaultLanguage 
-							, languages: 		this.languageNames
-							, countries: 		this.countryLanguageMap
-						} ) );
+					// install mutlilang support
+					this.service.use( new Mutlilang( { 
+						  defaultLanguage: 	this.defaultLanguage 
+						, languages: 		this.languageNames
+						, countries: 		this.countryLanguageMap
+					} ) );
 
-						// implement api restrictions
-						this.service.use( new APIRestriction( {
-							  apikeys: 		this.apikeys
-						} ) );
+					// implement api restrictions
+					this.service.use( new APIRestriction( {
+						  apikeys: 		this.apikeys
+					} ) );
 
-						// load rest api					
-						this.rest = new Rest( { 
-							  path: project.root + "public-api"
-							, options: { 
-								  schema: 				this.schema
-								, languages: 			this.languages
-								, reverseLanguages: 	this.reverseLanguages
-								, sqlfiles: 			this.sqlfiles
-							}
-							, on: { load: function(){
+					// load rest api					
+					this.rest = new Rest( { 
+						  path: project.root + "public-api"
+						, options: { 
+							  schema: 				this.schema
+							, languages: 			this.languages
+							, reverseLanguages: 	this.reverseLanguages
+							, sqlfiles: 			this.sqlfiles
+						}
+						, on: { load: function(){
 
-								this.service.use( this.rest );
+							this.service.use( this.rest );
 
-								// start listening
-								this.service.listen( function( err ){
-									log.trace( err );
-									log.info( "server loaded ..." );
-								}.bind( this ) );
-							}.bind( this ) }
-						} );
-					}.bind( this ) );					
-				}.bind( this ) }
-			} );			
+							// start listening
+							this.service.listen( function( err ){
+								log.trace( err );
+								log.info( "server loaded ..." );
+							}.bind( this ) );
+						}.bind( this ) }
+					} );
+				}.bind( this ) );					
+			}.bind( this ));
 		}
 
 
