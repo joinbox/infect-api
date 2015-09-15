@@ -22,7 +22,7 @@
 
 
 		, get: function( request, response, next ){
-			log(123);
+			// log(123);
 
 			this.schema.compound.fetchAll( function( err, antis ){
 				if ( err ) response.render( null, null, 500 );
